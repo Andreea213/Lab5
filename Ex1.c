@@ -1,106 +1,104 @@
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
 #define MAX 100
 
-struct Stack {
-    int data[MAX];
-    int top = -1;
-
-   
-    bool isEmpty() {
-        return top == -1;
-    }
-
-    
-    bool isFull() {
-        return top == MAX - 1;
-    }
-
-    
-    void push(int x) {
-        if (isFull()) {
-            std::cout << "Stiva este plina!\n";
-            return;
-        }
-        data[++top] = x;
-    }
-
-   
-    int pop() {
-        if (isEmpty()) {
-            std::cout << "Stiva este goala!\n";
-            return -1;
-        }
-        return data[top--];
-    }
-
-   
-    int peek() {
-        if (isEmpty()) return -1;
-        return data[top];
-    }
+struct Stiva {
+    int date[MAX];
+    int top;
 };
 
-struct Queue {
-    int data[MAX];
-    int front = 0;
-    int rear = -1;
-    int count = 0; 
+void initStiva(struct Stiva* s) {
+    s->top = -1;
+}
 
-    bool isEmpty() {
-        return count == 0;
+bool isEmptyStiva(struct Stiva* s) {
+    return s->top == -1;
+}
+
+bool isFullStiva(struct Stiva* s) {
+    return s->top == MAX - 1;
+}
+
+void push(struct Stiva* s, int x) {
+    if (!isFullStiva(s)) {
+        s->date[++(s->top)] = x;
     }
+}
 
-    bool isFull() {
-        return count == MAX;
+int pop(struct Stiva* s) {
+    if (!isEmptyStiva(s)) {
+        return s->date[(s->top)--];
     }
+    return -1;
+}
 
-    
-    void enqueue(int x) {
-        if (isFull()) {
-            std::cout << "Coada este plina!\n";
-            return;
-        }
-        rear = (rear + 1) % MAX; 
-        data[rear] = x;
-        count++;
+int peekStiva(struct Stiva* s) {
+    if (!isEmptyStiva(s)) {
+        return s->date[s->top];
     }
+    return -1;
+}
 
-    
-    int dequeue() {
-        if (isEmpty()) {
-            std::cout << "Coada este goala!\n";
-            return -1;
-        }
-        int x = data[front];
-        front = (front + 1) % MAX;
-        count--;
+struct Coada {
+    int date[MAX];
+    int front;
+    int rear;
+    int count;
+};
+
+void initCoada(struct Coada* q) {
+    q->front = 0;
+    q->rear = -1;
+    q->count = 0;
+}
+
+bool isEmptyCoada(struct Coada* q) {
+    return q->count == 0;
+}
+
+bool isFullCoada(struct Coada* q) {
+    return q->count == MAX;
+}
+
+void enqueue(struct Coada* q, int x) {
+    if (!isFullCoada(q)) {
+        q->rear = (q->rear + 1) % MAX;
+        q->date[q->rear] = x;
+        q->count++;
+    }
+}
+
+int dequeue(struct Coada* q) {
+    if (!isEmptyCoada(q)) {
+        int x = q->date[q->front];
+        q->front = (q->front + 1) % MAX;
+        q->count--;
         return x;
     }
+    return -1;
+}
 
-   
-    int peek() {
-        if (isEmpty()) return -1;
-        return data[front];
+int peekCoada(struct Coada* q) {
+    if (!isEmptyCoada(q)) {
+        return q->date[q->front];
     }
-};
+    return -1;
+}
 
 int main() {
-    
-    Stack s;
-    s.push(10);
-    s.push(20);
-    std::cout << "Vârful stivei: " << s.peek() << "\n"; 
-    std::cout << "Pop stivă: " << s.pop() << "\n";      
-    std::cout << "Este stiva goală? " << (s.isEmpty() ? "Da" : "Nu") << "\n\n";
+    struct Stiva s;
+    initStiva(&s);
+    push(&s, 10);
+    push(&s, 20);
+    printf("%d\n", pop(&s));
 
-    
-    Queue q;
-    q.enqueue(1);
-    q.enqueue(2);
-    q.enqueue(3);
-    std::cout << "Primul element în coadă: " << q.peek() << "\n";
-    std::cout << "Dequeue coadă: " << q.dequeue() << "\n";       
-    std::cout << "Este coada plină? " << (q.isFull() ? "Da" : "Nu") << "\n";
+    struct Coada q;
+    initCoada(&q);
+    enqueue(&q, 1);
+    enqueue(&q, 2);
+    printf("%d\n", dequeue(&q));
 
     return 0;
 }
