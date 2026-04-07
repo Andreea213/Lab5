@@ -60,7 +60,7 @@ int scoate_stiva(struct Stiva* s) {
 int main() {
     struct Coada jucatori;
     struct Stiva ordine_iesire;
-    int n, i, j, cartof_fierbinte, jucator_curent, eliminat;
+    int n, i, j, hot_potato, jucator_curent, eliminat;
 
     initCoada(&jucatori);
     initStiva(&ordine_iesire);
@@ -74,9 +74,9 @@ int main() {
     }
 
     while (jucatori.nr_elemente > 0) {
-        cartof_fierbinte = (rand() % 10) + 1;
+       hot_potato = (rand() % 10) + 1;
         
-        for (j = 0; j < cartof_fierbinte - 1; j++) {
+        for (j = 0; j < hot_potato - 1; j++) {
             jucator_curent = scoate_coada(&jucatori);
             adauga_coada(&jucatori, jucator_curent);
         }
